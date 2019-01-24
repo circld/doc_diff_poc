@@ -10,21 +10,21 @@ let dmp = new diff_match_patch();
 tesseract.recognize(oscarGood)
   .then(e => console.log('first image'))
   .then(result => {
-  	goodText = result.text;
+    goodText = result.text;
   })
 ;
 
 tesseract.recognize(oscarBad)
   .then(e => console.log('second image'))
   .then(result => {
-  	badText = result.text;
+    badText = result.text;
   })
   .finally(e => {
     // example from: https://neil.fraser.name/software/diff_match_patch/demos/diff.html
-  	let diff = dmp.diff_main(goodText, badText);
-  	dmp.diff_cleanupSemantic(diff);
-  	console.log(dmp.diff_prettyHtml(diff));
+    let diff = dmp.diff_main(goodText, badText);
+    dmp.diff_cleanupSemantic(diff);
+    console.log(dmp.diff_prettyHtml(diff));
 
-  	tesseract.terminate()
+    tesseract.terminate()
   })
 ;
