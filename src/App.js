@@ -15,11 +15,11 @@ class App extends Component {
   };
 
   textFromImg = (image, stateKey) => {
-    this.setState({[stateKey]: null});
+    this.setState({ [stateKey]: null });
     tesseract.recognize(image)
-    .then(result => {
-      this.setState({[stateKey]: result.text});
-    })
+      .then(result => {
+        this.setState({ [stateKey]: result.text });
+      })
   };
 
   getTextFromImages = (img1, img2) => {
@@ -47,10 +47,10 @@ class App extends Component {
     return (
       <React.Fragment>
         <h1>This is the App component</h1>
-        <img src={OscarBad} />
         <img src={OscarGood} />
+        <img src={OscarBad} />
         <button onClick={() => this.getTextFromImages(OscarGood, OscarBad)}>GO!</button>
-        <div dangerouslySetInnerHTML={{ __html: diffHtml}} />
+        <div dangerouslySetInnerHTML={{ __html: diffHtml }} />
       </React.Fragment>
     );
   };
