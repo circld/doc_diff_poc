@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-// import tesseract from '../node_modules/tesseract.js';  // server side import
 import diff_match_patch from '../node_modules/diff-match-patch/index.js';
 
-import OscarBad from './assets/images/OscarGood.png';
-import OscarGood from './assets/images/OscarBad.png'
 const tesseract = window.Tesseract;  // imported in index.html (required for client side execution)
+
+
+
+
 
 
 class App extends Component {
 
   state = {
+    file1: null,
+    file2: null,
     img1Text: null,
     img2Text: null
   };
@@ -34,6 +37,16 @@ class App extends Component {
     return dmp.diff_prettyHtml(diff);
   };
 
+  readFile = (event, stateKey) => {
+    const input = event.target;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.setState({ [stateKey]: reader.result });
+    };
+    reader.readAsDataURL(input.files[0]);
+  };
+
   render() {
 
     let diffHtml = null;
@@ -47,9 +60,9 @@ class App extends Component {
     return (
       <React.Fragment>
         <h1>This is the App component</h1>
-        <img src={OscarGood} />
-        <img src={OscarBad} />
-        <button onClick={() => this.getTextFromImages(OscarGood, OscarBad)}>GO!</button>
+        <input type="file" onChange={(e) => this.readFile(e, 'file1')}/>
+        <input type="file" onChange={(e) => this.readFile(e, 'file2')}/>
+        <button onClick={() => this.getTextFromImages(this.state.file1, this.state.file2)}>GO!</button>
         <div dangerouslySetInnerHTML={{ __html: diffHtml }} />
       </React.Fragment>
     );
