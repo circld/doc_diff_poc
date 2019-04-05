@@ -7,7 +7,16 @@ Document differ proof-of-concept
 - [x] create bare bones node script to extract text from image using `tesseract`
 - [x] extend `test.js` such that it prints diffs between two images to console (`diff-match-patch`)
 - [x] POC single page react app allowing user to select 2 images and displaying diff in browser
-- [ ] Dream: select (and drag-and-drop rearrange) multiple pages for before/after with pretty-printed diff (e.g., github style diff)
+- [ ] extend the UX
+    - [x] create mockup sketch
+    - [x] design required components
+    - [ ] display img thumbnails
+    - [ ] preview text from images
+    - [ ] preview text updates on image change
+    - [ ] collapse preview text after diff generation
+    - [ ] drag and drop rearrange images 
+- [ ] extend app to be able to handle PDF files
+- [ ] write tests
 - [ ] make it not look like complete shite
 
 ### Installation
