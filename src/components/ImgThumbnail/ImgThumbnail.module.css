@@ -1,0 +1,12 @@
+
+.ImgContainer {
+    height: 75px;
+    width: 75px;
+    box-shadow: 0 0 10px 1px #e1e1e1;
+    margin: 10px 5px;
+
+}
+
+.Image {
+    width: 90%;
+}

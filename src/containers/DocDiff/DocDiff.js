@@ -13,6 +13,7 @@ class DocDiff extends Component {
     texts1: [],
     texts2: [],
 
+    // TODO: this state is for legacy
     file1: null,
     file2: null,
     img1Text: null,
@@ -44,9 +45,20 @@ class DocDiff extends Component {
 
     const reader = new FileReader();
     reader.onload = () => {
-      this.setState({ [stateKey]: reader.result });
+      // this.setState({ [stateKey]: reader.result });
+      this.addImage(reader.result, stateKey)
     };
     reader.readAsDataURL(input.files[0]);
+  };
+
+  addImage = (image, stateKey) => {
+    this.setState(prevState => {
+      const imgsCopy = [...prevState[stateKey]];
+      imgsCopy.push(image);
+      return {
+        [stateKey]: imgsCopy
+      }
+    })
   };
 
   render() {
@@ -63,18 +75,21 @@ class DocDiff extends Component {
       <div className="container my-5">
         <div className="row">
           <DocManager
+            className="col-sm-6"
             imgArray={this.state.imgs1}
             docText={this.state.texts1}
           />
           <DocManager
+            className="col-sm-6"
             imgArray={this.state.imgs2}
             docText={this.state.texts2}
           />
         </div>
         <div className="row">
-          <input type="file" onChange={(e) => this.readFile(e, 'file1')}/>
-          <input type="file" onChange={(e) => this.readFile(e, 'file2')}/>
-          <button onClick={() => this.getTextFromImages(this.state.file1, this.state.file2)}>GO!</button>
+          <input type="file" onChange={(e) => this.readFile(e, 'imgs1')}/>
+
+          <input type="file" onChange={(e) => this.readFile(e, 'imgs2')}/>
+          <button className="btn btn-secondary" onClick={() => this.getTextFromImages(this.state.file1, this.state.file2)}>GO!</button>
           <div dangerouslySetInnerHTML={{ __html: diffHtml }} />
         </div>
       </div>

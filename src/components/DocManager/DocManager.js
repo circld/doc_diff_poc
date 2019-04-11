@@ -7,7 +7,7 @@ import ImgTextDisplay from '../ImgTextDisplay/ImgTextDisplay';
 const docManager = props => {
 
   return (
-    <div>
+    <div className={props.className}>
       <ImgGroup
         imgArray={props.imgArray}
       />

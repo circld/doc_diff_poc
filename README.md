@@ -10,7 +10,7 @@ Document differ proof-of-concept
 - [ ] extend the UX
     - [x] create mockup sketch
     - [x] design required components
-    - [ ] display img thumbnails
+    - [x] display img thumbnails
     - [ ] preview text from images
     - [ ] preview text updates on image change
     - [ ] collapse preview text after diff generation
