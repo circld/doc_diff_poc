@@ -12,7 +12,7 @@ const docManager = props => {
         imgArray={props.imgArray}
       />
       <ImgTextDisplay
-        docText={props.docText}
+        docTextArray={props.docTextArray}
       />
     </div>
   );

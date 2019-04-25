@@ -8,57 +8,45 @@ const tesseract = window.Tesseract;  // imported in index.html (required for cli
 class DocDiff extends Component {
 
   state = {
-    imgs1: [],
-    imgs2: [],
-    texts1: [],
-    texts2: [],
-
-    // TODO: this state is for legacy
-    file1: null,
-    file2: null,
-    img1Text: null,
-    img2Text: null
+    doc1: {
+      imgsFileName: [],
+      imgs: [],
+      imgsText: []
+    },
+    doc2: {
+      imgsFileName: [],
+      imgs: [],
+      imgsText: []
+    }
   };
 
-  textFromImg = (image, stateKey) => {
-    this.setState({ [stateKey]: null });
-    tesseract.recognize(image)
-      .then(result => {
-        this.setState({ [stateKey]: result.text });
-      })
-  };
+  incrementStateArrays = (prevState, filename) => {
+    const files = [...prevState.imgsFileName];
+    files.push(filename);
+    const images = [...prevState.imgs];
+    images.push(filename);
+    const text = [...prevState.imgsText];
+    text.push(filename);
+    return {
+      imgsFileName: files,
+      imgs: images,
+      imgsText: text
+    }
+  }
 
-  getTextFromImages = (img1, img2) => {
-    this.textFromImg(img1, 'img1Text');
-    this.textFromImg(img2, 'img2Text');
-  };
-
-  diffText = (text1, text2) => {
-    let dmp = new diff_match_patch();
-    let diff = dmp.diff_main(text1, text2);
-    dmp.diff_cleanupSemantic(diff);
-    return dmp.diff_prettyHtml(diff);
-  };
-
-  readFile = (event, stateKey) => {
+  processImage = (event, docKey) => {
     const input = event.target;
+    const filename = input.files[0];
+    let idx = null;
+    this.setState( (prevState) => {
+      idx = prevState[docKey].imgsFileName.length;
+      return {[docKey]: this.incrementStateArrays(prevState[docKey], filename)};
+    } );
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      // this.setState({ [stateKey]: reader.result });
-      this.addImage(reader.result, stateKey)
-    };
-    reader.readAsDataURL(input.files[0]);
-  };
-
-  addImage = (image, stateKey) => {
-    this.setState(prevState => {
-      const imgsCopy = [...prevState[stateKey]];
-      imgsCopy.push(image);
-      return {
-        [stateKey]: imgsCopy
-      }
-    })
+    // TODO get minimal promise example working
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise
+    // Promise(load_img(idx)).then((idx) => extract_text(idx))
   };
 
   render() {
@@ -77,12 +65,12 @@ class DocDiff extends Component {
           <DocManager
             className="col-sm-6"
             imgArray={this.state.imgs1}
-            docText={this.state.texts1}
+            docTextArray={this.state.texts1}
           />
           <DocManager
             className="col-sm-6"
             imgArray={this.state.imgs2}
-            docText={this.state.texts2}
+            docTextArray={this.state.texts2}
           />
         </div>
         <div className="row">
