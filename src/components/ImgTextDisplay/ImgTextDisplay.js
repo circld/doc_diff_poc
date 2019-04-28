@@ -1,8 +1,8 @@
 import React from 'react';
 
 
-const textDiv = (text) => (
-  <div>
+const textDiv = (text, idx) => (
+  <div key={idx}>
     <pre>
       { text }
     </pre>
