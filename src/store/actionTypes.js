@@ -1,0 +1,3 @@
+
+export const INC_STATE_ARRAYS = 'INC_STATE_ARRAYS';
+export const SPLICE_INTO_ARRAY = 'SPLICE_INTO_ARRAY';
