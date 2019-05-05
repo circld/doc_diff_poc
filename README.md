@@ -11,8 +11,8 @@ Document differ proof-of-concept
     - [x] create mockup sketch
     - [x] design required components
     - [x] display img thumbnails
-    - [ ] preview text from images
-    - [ ] preview text updates on image change
+    - [x] preview text from images
+    - [x] preview text updates on image change
     - [ ] collapse preview text after diff generation
     - [ ] drag and drop rearrange images 
 - [ ] extend app to be able to handle PDF files
