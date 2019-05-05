@@ -9,7 +9,7 @@ const docManager = props => {
   return (
     <div className={props.className}>
       <ImgGroup
-        imgArray={props.imgArray}
+        docKey={props.docKey}
       />
       <ImgTextDisplay
         docTextArray={props.docTextArray}

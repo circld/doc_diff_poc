@@ -1,6 +1,7 @@
 import React from 'react';
 
 import DocManager from '../../components/DocManager/DocManager';
+import uuid4 from 'uuid/v4';
 import { useStateStore } from '../../store/stateHelpers';
 import * as actionTypes from '../../store/actionTypes';
 
@@ -11,36 +12,36 @@ const docDiff = props => {
 
   const [state, dispatch] = useStateStore();
 
-  const readFile = (idx, docKey, file) => {
+  const readFile = (id, docKey, file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
         const image = reader.result;
-        resolve({idx, docKey, image});
+        resolve({id, docKey, image});
       };
       reader.readAsDataURL(file);
     })
   };
 
-  const spliceImgIntoArray = (idx, docKey, image) => {
+  const valToState = (id, docKey, image) => {
     dispatch({
-      type: actionTypes.SPLICE_INTO_ARRAY,
-      idx: idx,
+      type: actionTypes.REPLACE_ID_VAL,
+      id: id,
       docKey: docKey,
-      key: 'imgs',
-      value: image
+      slice: 'imgs',
+      val: image
     });
-    return ({idx, docKey, image})
+    return ({id, docKey, image})
   };
 
-  const textFromImg = (idx, docKey, image) => {
+  const textFromImg = (id, docKey, image) => {
     tesseract.recognize(image)
       .then(result => dispatch({
-          type: actionTypes.SPLICE_INTO_ARRAY,
-          idx: idx,
+          type: actionTypes.REPLACE_ID_VAL,
+          id: id,
           docKey: docKey,
-          key: 'imgsText',
-          value: result.text
+          slice: 'imgsText',
+          val: result.text
         })
       )
   };
@@ -48,14 +49,26 @@ const docDiff = props => {
   const processImage = (event, docKey) => {
     const input = event.target;
     const file = input.files[0];
-    let idx = state[docKey].filenames.length;
+    if (!file) {
+      return null;
+    }
+    let id = uuid4();
     new Promise((resolve, reject) => {
-      dispatch({type: actionTypes.INC_STATE_ARRAYS, docKey: docKey, filename: file.name});
-      resolve({idx, docKey, file})
+      dispatch({
+        type: actionTypes.ID_VAL_TO_STATE,
+        docKey: docKey,
+        id: id,
+        val: file.name
+      });
+      resolve({id, docKey, file})
     })
-      .then(({idx, docKey, file}) => readFile(idx, docKey, file))
-      .then(({idx, docKey, image}) => spliceImgIntoArray(idx, docKey, image))
-      .then(({idx, docKey, image}) => textFromImg(idx, docKey, image));
+      .then(({id, docKey, file}) => readFile(id, docKey, file))
+      .then(({id, docKey, image}) => valToState(id, docKey, image))
+      .then(({id, docKey, image}) => textFromImg(id, docKey, image));
+  };
+
+  const arrayFromState = (docKey, slice) => {
+    return state[docKey].ids.map(key => state[docKey][slice][key]);
   };
 
   return (
@@ -67,13 +80,13 @@ const docDiff = props => {
       <div className="row">
         <DocManager
           className="col-sm-6"
-          imgArray={state.doc1.imgs}
-          docTextArray={state.doc1.imgsText}
+          docKey={'doc1'}
+          docTextArray={arrayFromState('doc1', 'imgsText')}
         />
         <DocManager
           className="col-sm-6"
-          imgArray={state.doc2.imgs}
-          docTextArray={state.doc2.imgsText}
+          docKey={'doc2'}
+          docTextArray={arrayFromState('doc2', 'imgsText')}
         />
       </div>
     </div>
