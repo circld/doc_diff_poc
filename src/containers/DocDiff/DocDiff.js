@@ -12,59 +12,49 @@ const docDiff = props => {
 
   const [state, dispatch] = useStateStore();
 
-  const readFile = (id, docKey, file) => {
+  const getFileImg = (id, docKey, file) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => {
         const image = reader.result;
-        resolve({id, docKey, image});
+        resolve(image);
       };
       reader.readAsDataURL(file);
     })
   };
 
-  const valToState = (id, docKey, image) => {
+  const populateStateArrays = (id, docKey, val) => {
+    dispatch({
+      type: actionTypes.ID_VAL_TO_STATE,
+      docKey: docKey,
+      id: id,
+      val: val
+    });
+  };
+
+  const valToState = (id, docKey, slice, val) => {
     dispatch({
       type: actionTypes.REPLACE_ID_VAL,
       id: id,
       docKey: docKey,
-      slice: 'imgs',
-      val: image
+      slice: slice,
+      val: val
     });
-    return ({id, docKey, image})
   };
 
-  const textFromImg = (id, docKey, image) => {
-    tesseract.recognize(image)
-      .then(result => dispatch({
-          type: actionTypes.REPLACE_ID_VAL,
-          id: id,
-          docKey: docKey,
-          slice: 'imgsText',
-          val: result.text
-        })
-      )
-  };
-
-  const processImage = (event, docKey) => {
+  const processImage = async (event, docKey) => {
     const input = event.target;
     const file = input.files[0];
     if (!file) {
       return null;
     }
     let id = uuid4();
-    new Promise((resolve, reject) => {
-      dispatch({
-        type: actionTypes.ID_VAL_TO_STATE,
-        docKey: docKey,
-        id: id,
-        val: file.name
-      });
-      resolve({id, docKey, file})
-    })
-      .then(({id, docKey, file}) => readFile(id, docKey, file))
-      .then(({id, docKey, image}) => valToState(id, docKey, image))
-      .then(({id, docKey, image}) => textFromImg(id, docKey, image));
+    populateStateArrays(id, docKey, file.name);
+    const image = await getFileImg(id, docKey, file);
+    valToState(id, docKey, 'imgs', image);
+    const result = await tesseract.recognize(image);
+    console.dir(result);
+    valToState(id, docKey, 'imgsText', result.text);
   };
 
   const arrayFromState = (docKey, slice) => {
