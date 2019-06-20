@@ -8,7 +8,7 @@ import * as actionTypes from '../../store/actionTypes';
 const tesseract = window.Tesseract;
 
 
-const docDiff = props => {
+const DocDiff = props => {
 
   const [state, dispatch] = useStateStore();
 
@@ -84,4 +84,4 @@ const docDiff = props => {
 };
 
 
-export default docDiff;
+export default DocDiff;
