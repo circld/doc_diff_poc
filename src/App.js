@@ -4,7 +4,6 @@ import { StateProvider } from './store/stateHelpers';
 import docsReducer, { docsInitialState } from './store/docsReducer';
 
 import DocDiff from './containers/DocDiff/DocDiff';
-// import DocDiff_Legacy from './containers/DocDiff/DocDiff_Legacy';
 
 
 class App extends Component {
@@ -13,7 +12,6 @@ class App extends Component {
     return (
       <StateProvider initialState={docsInitialState} reducer={docsReducer}>
         <DocDiff/>
-        {/*<DocDiff_Legacy/>*/}
       </StateProvider>
     );
   }

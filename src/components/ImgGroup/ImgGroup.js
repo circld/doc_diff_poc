@@ -4,7 +4,7 @@ import ImgThumbnail from '../ImgThumbnail/ImgThumbnail';
 import { useStateStore } from '../../store/stateHelpers';
 import * as actionTypes from '../../store/actionTypes';
 
-const imgGroup = props => {
+const ImgGroup = props => {
 
   const [state, dispatch] = useStateStore();
 
@@ -31,4 +31,4 @@ const imgGroup = props => {
 };
 
 
-export default imgGroup;
+export default ImgGroup;
