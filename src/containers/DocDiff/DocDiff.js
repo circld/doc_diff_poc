@@ -1,9 +1,11 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import DocManager from '../../components/DocManager/DocManager';
 import uuid4 from 'uuid/v4';
 import { useStateStore } from '../../store/stateHelpers';
-import * as actionTypes from '../../store/actionTypes';
+import * as actionTypes from '../../store/actions/actionTypes';
+import * as actions from '../../store/actions/index';
 
 const tesseract = window.Tesseract;
 
@@ -23,24 +25,24 @@ const DocDiff = props => {
     })
   };
 
-  const populateStateArrays = (id, docKey, val) => {
-    dispatch({
-      type: actionTypes.ID_VAL_TO_STATE,
-      docKey: docKey,
-      id: id,
-      val: val
-    });
-  };
-
-  const valToState = (id, docKey, slice, val) => {
-    dispatch({
-      type: actionTypes.REPLACE_ID_VAL,
-      id: id,
-      docKey: docKey,
-      slice: slice,
-      val: val
-    });
-  };
+  // const props.populateStateArrays = (id, docKey, val) => {
+  //   dispatch({
+  //     type: actionTypes.ID_VAL_TO_STATE,
+  //     docKey: docKey,
+  //     id: id,
+  //     val: val
+  //   });
+  // };
+  //
+  // const props.valToState = (id, docKey, slice, val) => {
+  //   dispatch({
+  //     type: actionTypes.REPLACE_ID_VAL,
+  //     id: id,
+  //     docKey: docKey,
+  //     slice: slice,
+  //     val: val
+  //   });
+  // };
 
   const processImage = async (event, docKey) => {
     const input = event.target;
@@ -49,16 +51,16 @@ const DocDiff = props => {
       return null;
     }
     let id = uuid4();
-    populateStateArrays(id, docKey, file.name);
+    props.populateStateArrays(id, docKey, file.name);
     const image = await getFileImg(id, docKey, file);
-    valToState(id, docKey, 'imgs', image);
+    props.valToState(id, docKey, 'imgs', image);
     const result = await tesseract.recognize(image);
     console.dir(result);
-    valToState(id, docKey, 'imgsText', result.text);
+    props.valToState(id, docKey, 'imgsText', result.text);
   };
 
-  const arrayFromState = (docKey, slice) => {
-    return state[docKey].ids.map(key => state[docKey][slice][key]);
+  const arrayFromState = (docState, slice) => {
+    return docState.ids.map(key => docState[slice][key]);
   };
 
   return (
@@ -71,17 +73,30 @@ const DocDiff = props => {
         <DocManager
           className="col-sm-6"
           docKey={'doc1'}
-          docTextArray={arrayFromState('doc1', 'imgsText')}
+          docTextArray={arrayFromState(props.doc1, 'imgsText')}
         />
         <DocManager
           className="col-sm-6"
           docKey={'doc2'}
-          docTextArray={arrayFromState('doc2', 'imgsText')}
+          docTextArray={arrayFromState(props.doc2, 'imgsText')}
         />
       </div>
     </div>
   );
 };
 
+const mapStateToProps = (state) => {
+  return {
+    doc1: state.doc1,
+    doc2: state.doc2
+  }
+};
 
-export default DocDiff;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    populateStateArrays: (id, docKey, val) => dispatch(actions.populateStateArrays),
+    valToState: (id, docKey, slice, val) => dispatch(actions.valToState)
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DocDiff);
