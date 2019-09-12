@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, combineReducers, compose } from 'redux';
+import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
+import  thunk from 'redux-thunk';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -16,7 +17,7 @@ const rootReducer = combineReducers({
 
 const store = createStore(
   rootReducer,
-  composeEnhancers()
+  composeEnhancers(applyMiddleware(thunk))
 );
 
 ReactDOM.render(

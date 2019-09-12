@@ -1,4 +1,5 @@
 export {
   populateStateArrays,
-  valToState
+  valToState,
+  processImage,
 } from './docsReducer';
