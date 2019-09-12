@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import { StateProvider } from './store/stateHelpers';
-import docsReducer, { docsInitialState } from './store/docsReducer';
+import docsReducer, { docsInitialState } from './store/reducers/docsReducer';
 
 import DocDiff from './containers/DocDiff/DocDiff';
 

@@ -1,4 +1,4 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from '../actions/actionTypes';
 
 
 export const docsInitialState = {
@@ -60,7 +60,7 @@ const removeIdFromState = (state, action) => {
   }
 };
 
-const reducer = (state, action) => {
+const reducer = (state = docsInitialState, action) => {
 
   switch (action.type) {
 

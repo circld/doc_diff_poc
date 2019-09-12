@@ -2,7 +2,7 @@ import React from 'react';
 
 import ImgThumbnail from '../ImgThumbnail/ImgThumbnail';
 import { useStateStore } from '../../store/stateHelpers';
-import * as actionTypes from '../../store/actionTypes';
+import * as actionTypes from '../../store/actions/actionTypes';
 
 const ImgGroup = props => {
 
