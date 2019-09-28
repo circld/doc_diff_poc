@@ -25,6 +25,14 @@ export const valToState = (id, docKey, slice, val) => {
   };
 };
 
+export const removeFromState = (id, docKey) => {
+  return {
+    type: actionTypes.REMOVE_ID_FROM_STATE,
+    docKey: docKey,
+    id: id
+  };
+};
+
 export const processImage = (file, docKey) => {
   return async dispatch => {
     if (!file) {
@@ -33,9 +41,9 @@ export const processImage = (file, docKey) => {
     let id = uuid4();
     dispatch(populateStateArrays(id, docKey, file.name));
     const image = await getFileImage(id, docKey, file);
-    dispatch(valToState(id, docKey, 'imgs', image));
+    dispatch(valToState(id, docKey, 'idImageMap', image));
     const result = await tesseract.recognize(image);
     console.dir(result);
-    dispatch(valToState(id, docKey, 'imgsText', result.text));
+    dispatch(valToState(id, docKey, 'idTextMap', result.text));
   }
 };

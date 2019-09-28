@@ -31,13 +31,17 @@ const DocDiff = props => {
       <div className="row">
         <DocManager
           className="col-sm-6"
-          docKey={'doc1'}
-          docTextArray={arrayFromState(props.doc1, 'imgsText')}
+          ids={props.doc1.ids}
+          docKey="doc1"
+          idImageMap={props.doc1.idImageMap}
+          docTextArray={arrayFromState(props.doc1, 'idTextMap')}
         />
         <DocManager
           className="col-sm-6"
-          docKey={'doc2'}
-          docTextArray={arrayFromState(props.doc2, 'imgsText')}
+          ids={props.doc2.ids}
+          docKey="doc2"
+          idImageMap={props.doc2.idImageMap}
+          docTextArray={arrayFromState(props.doc2, 'idTextMap')}
         />
       </div>
     </div>

@@ -13,11 +13,10 @@ const imgThumbnail = props => {
 
   return(
     <div className={classes.ImgContainer}>
-      {/*<img className={classes.Image} src={phImg} alt="placeholder image"/>;*/}
       {image}
       <button
         className={classes.CloseButton}
-        onClick={props.onRemoveImage}
+        onClick={props.removeFromState}
       >
         X
       </button>

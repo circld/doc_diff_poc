@@ -4,15 +4,15 @@ import * as actionTypes from '../actions/actionTypes';
 export const docsInitialState = {
   doc1: {
     ids: [],
-    filenames: {},
-    imgs: {},
-    imgsText: {},
+    idFilenameMap: {},
+    idImageMap: {},
+    idTextMap: {},
   },
   doc2: {
     ids: [],
-    filenames: {},
-    imgs: {},
-    imgsText: {},
+    idFilenameMap: {},
+    idImageMap: {},
+    idTextMap: {},
   }
 };
 
@@ -22,9 +22,9 @@ const addIdValToState = (state, action) => {
     ...state,
     [docKey]: {
       ids: [...state[docKey].ids].concat(id),
-      filenames: {...state[docKey].filenames, [id]: val},
-      imgs: {...state[docKey].imgs, [id]: val},
-      imgsText: {...state[docKey].imgsText, [id]: val},
+      idFilenameMap: {...state[docKey].idFilenameMap, [id]: val},
+      idImageMap: {...state[docKey].idImageMap, [id]: val},
+      idTextMap: {...state[docKey].idTextMap, [id]: val},
     }
   };
 };
@@ -46,16 +46,16 @@ const replaceIdVal = (state, action) => {
 
 const removeIdFromState = (state, action) => {
   const doc = state[action.docKey];
-  const newIds = doc.ids.filter(ind => ind !== action.id);
+  const newIds = doc.ids.filter(id => id !== action.id);
   const removeId = slice => newIds.reduce(
     (acc, id) => {acc[id] = doc[slice][id]; return acc;}, {});
   return {
     ...state,
     [action.docKey]: {
       ids: newIds,
-      filenames: removeId('filenames'),
-      imgs:  removeId('imgs'),
-      imgsText: removeId('imgsText')
+      idFilenameMap: removeId('idFilenameMap'),
+      idImageMap:  removeId('idImageMap'),
+      idTextMap: removeId('idTextMap')
     }
   }
 };

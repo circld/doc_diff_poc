@@ -1,28 +1,19 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import ImgThumbnail from '../ImgThumbnail/ImgThumbnail';
-import { useStateStore } from '../../store/stateHelpers';
-import * as actionTypes from '../../store/actions/actionTypes';
+import * as actions from '../../store/actions/index';
 
 const ImgGroup = props => {
 
-  const [state, dispatch] = useStateStore();
-
-  const onRemoveImage = id => {
-    dispatch({
-      type: actionTypes.REMOVE_ID_FROM_STATE,
-      docKey: props.docKey,
-      id: id
-    })
-  };
-
   return (
     <div className="row">
-      {state[props.docKey].ids.map(id => (
+      {props.ids.map(id => (
           <ImgThumbnail
             key={id}
-            image={state[props.docKey].imgs[id]}
-            onRemoveImage={() => onRemoveImage(id)}
+            docKey={props.docKey}
+            image={props.idImageMap[id]}
+            removeFromState={() => props.removeFromState(id, props.docKey)}
           />
         ))
       }
@@ -30,5 +21,10 @@ const ImgGroup = props => {
   )
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    removeFromState: (id, docKey) => dispatch(actions.removeFromState(id, docKey))
+  };
+};
 
-export default ImgGroup;
+export default connect(null, mapDispatchToProps)(ImgGroup);
