@@ -8,11 +8,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './App'
 import docsReducer from './store/reducers/docsReducer'
+import diffReducer from './store/reducers/diffing'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-  docsReducer: docsReducer
+  docsReducer: docsReducer,
+  diffReducer: diffReducer
 });
 
 const store = createStore(

@@ -1,3 +1,7 @@
 export const ID_VAL_TO_STATE = 'ID_VAL_TO_STATE';
 export const REPLACE_ID_VAL = 'REPLACE_ID_VAL';
 export const REMOVE_ID_FROM_STATE = 'REMOVE_ID_FROM_STATE';
+
+export const DIFF_START = 'DIFF_START';
+export const DIFF_SUCCESS = 'DIFF_SUCCESS';
+export const DIFF_FAILURE = 'DIFF_FAILURE';

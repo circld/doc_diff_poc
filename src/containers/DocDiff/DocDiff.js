@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import DiffManager from '../../components/DiffManager/DiffManager';
 import DocManager from '../../components/DocManager/DocManager';
 import * as actions from '../../store/actions/index';
 
@@ -16,8 +17,19 @@ const DocDiff = props => {
     return input.files[0];
   };
 
+  const processDiff = event => {
+    const text1 = arrayFromState(props.doc1, 'idTextMap').join('\n');
+    const text2 = arrayFromState(props.doc2, 'idTextMap').join('\n');
+    props.diffText(text1, text2);
+  };
+
   return (
     <div className="container my-5">
+      <div className="row">
+        <button
+          onClick={processDiff}
+        >DIFF IT</button>
+      </div>
       <div className="row">
         <input
           type="file"
@@ -43,6 +55,11 @@ const DocDiff = props => {
           idImageMap={props.doc2.idImageMap}
           docTextArray={arrayFromState(props.doc2, 'idTextMap')}
         />
+        <DiffManager
+          loading={props.diff.loading}
+          error={props.diff.error}
+          data={props.diff.data}
+        />
       </div>
     </div>
   );
@@ -51,15 +68,17 @@ const DocDiff = props => {
 const mapStateToProps = (state) => {
   return {
     doc1: state.docsReducer.doc1,
-    doc2: state.docsReducer.doc2
+    doc2: state.docsReducer.doc2,
+    diff: state.diffReducer,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    diffText: (text1, text2) => dispatch(actions.diffText(text1, text2)),
+    processImage: (file, docKey) => dispatch(actions.processImage(file, docKey)),
     populateStateArrays: (id, docKey, val) => dispatch(actions.populateStateArrays(id, docKey, val)),
     valToState: (id, docKey, slice, val) => dispatch(actions.valToState(id, docKey, slice, val)),
-    processImage: (file, docKey) => dispatch(actions.processImage(file, docKey)),
   }
 };
 
