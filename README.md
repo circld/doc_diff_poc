@@ -13,8 +13,8 @@ Document differ proof-of-concept
     - [x] display img thumbnails
     - [x] preview text from images
     - [x] preview text updates on image change
-    - [ ] implement diffing functionality
-    - [ ] collapse preview text after diff generation
+    - [x] implement diffing functionality
+    - [x] collapse preview text after diff generation
     - [ ] drag and drop rearrange images
 - [ ] extend app to be able to handle PDF files
 - [ ] write tests
