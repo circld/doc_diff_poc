@@ -39,7 +39,7 @@ export const processImage = (file, docKey) => {
       return null;
     }
     let id = uuid4();
-    dispatch(populateStateArrays(id, docKey, file.name));
+    dispatch(populateStateArrays(id, docKey, null));
     const image = await getFileImage(id, docKey, file);
     dispatch(valToState(id, docKey, 'idImageMap', image));
     const result = await tesseract.recognize(image);

@@ -1,6 +1,10 @@
 export {
   populateStateArrays,
-  valToState,
-  removeFromState,
   processImage,
+  removeFromState,
+  valToState,
 } from './docsReducer';
+
+export {
+  diffText,
+} from './diffing';

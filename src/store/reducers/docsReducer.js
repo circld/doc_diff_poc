@@ -31,7 +31,7 @@ const addIdValToState = (state, action) => {
 
 const replaceIdVal = (state, action) => {
   const {docKey, id, slice, val} = action;
-  if (!state[docKey][slice][id]) {
+  if (state[docKey][slice][id] === undefined) {
     // id no longer in state slice
     return state;
   }

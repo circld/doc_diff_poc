@@ -1,21 +1,33 @@
 import React from 'react';
 
+import Spinner from '../../components/UI/Spinner/Spinner';
 
-const textDiv = (text, idx) => (
-  <div key={idx}>
-    <pre>
-      { text }
-    </pre>
-  </div>
-);
 
-const createTextBlocks = (textArray) => textArray.map(textDiv);
+const textDiv = (text, idx) => {
+  if (text === null) {
+    return <Spinner key={idx}/>;
+  }
+  return (
+    <div key={idx}>
+      <pre>
+        { text }
+      </pre>
+    </div>
+  );
+};
+
+const renderTextBlocks = (textArray) => {
+  if (textArray.length === 0) {
+    return 'No images added.'
+  }
+  return textArray.map(textDiv);
+};
 
 const imgTextDisplay = (props) => {
 
   return (
     <div>
-    { props.docTextArray.length > 0 ? createTextBlocks(props.docTextArray) : 'No images added.' }
+      { renderTextBlocks(props.docTextArray)}
     </div>
   );
 };
