@@ -1,20 +1,20 @@
 import * as actionTypes from './actionTypes';
 import diff_match_patch from 'diff-match-patch';
 
-const diffStarted = () => {
+export const diffStarted = () => {
   return {
     type: actionTypes.DIFF_START
   }
 };
 
-const diffSuccess = (data) => {
+export const diffSuccess = (data) => {
   return {
     type: actionTypes.DIFF_SUCCESS,
     diffData: data
   }
 };
 
-const diffFailure = (error) => {
+export const diffFailure = (error) => {
   return {
     type: actionTypes.DIFF_FAILURE,
     error: error
