@@ -34,10 +34,12 @@ const DocDiff = props => {
         <div className="row">
           <input
             type="file"
+            accept="image/*"
             onChange={(e) => props.processImage(fileFromEvent(e), 'doc1')}
           />
           <input
             type="file"
+            accept="image/*"
             onChange={(e) => props.processImage(fileFromEvent(e), 'doc2')}
           />
         </div>

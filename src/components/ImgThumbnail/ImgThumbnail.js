@@ -7,7 +7,7 @@ import phImg from '../../assets/images/imgPlaceholder.svg';
 const imgThumbnail = props => {
 
   let image = <img className={classes.Image} src={phImg} alt="placeholder"/>;
-  if (props.image && props.image.startsWith('data:image/png;base64')) {
+  if (props.image && props.image.startsWith('data:image')) {
     image = <img className={classes.Image} src={props.image} alt="submitted document"/>;
   }
 
